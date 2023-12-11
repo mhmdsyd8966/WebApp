@@ -10,29 +10,58 @@ namespace Service
 {
     public class TransactionService : ITransactionService
     {
+        private List<Transaction> _transactions;
+        public TransactionService() {
+            _transactions = new List<Transaction>();
+        }
         public void AddTransaction(Transaction transaction)
         {
-            throw new NotImplementedException();
+            if(_transactions != null&&_transactions.Count>0)
+            {
+                var MaxId = _transactions.Max(x => x.Id);
+                transaction.Id = MaxId+1;
+            }
+            else
+                transaction.Id = 1;
+            _transactions.Add(transaction);
         }
 
-        public void EditTransaction(Transaction transaction)
+        public void Save(List<Product> products,string PrdouctId, List<Product> soldQty, double ToTalPrice)
         {
-            throw new NotImplementedException();
+            var transactionId = 0;
+            if(_transactions!=null&& _transactions.Count>0)
+            {
+               var MaxId=_transactions.Max(x => x.Id);
+                transactionId= MaxId+1;
+            }
+            else
+            {
+                transactionId = 1;
+            }
+            _transactions.Add(new Transaction {
+                Id = transactionId,
+                IsDone = false,
+                Products=products,
+                TotalPrice=ToTalPrice,
+                SoldQty=soldQty
+               
+                
+            });
         }
 
         public List<Transaction> GetAllTransactions()
         {
-            throw new NotImplementedException();
+            return _transactions;
         }
 
         public Transaction GetTransaction(int transactionId)
         {
-            throw new NotImplementedException();
+           return _transactions.Find(x=>x.Id==transactionId);
         }
 
         public void RemoveTransaction(int transactionId)
         {
-            throw new NotImplementedException();
+            _transactions.Remove(GetTransaction(transactionId));
         }
 
         public List<Transaction> Search(DateTime startDate, DateTime endDate)

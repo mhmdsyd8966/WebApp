@@ -23,32 +23,48 @@ namespace Service
         }
         public void AddProduct(Product product)
         {
-            throw new NotImplementedException();
+            if(products != null&&products.Count>0) {
+                var maxId = products.Max(p => p.Id);
+                product.Id = maxId+1;
+            }
+            else
+            {
+                product.Id = 1;
+            }
+            products.Add(product);
         }
 
         public void DeleteProduct(int Id)
         {
-            throw new NotImplementedException();
+            products.Remove(GetProduct(Id));
         }
 
         public Product GetProduct(int Id)
         {
-            throw new NotImplementedException();
+            return products.Find(x=>x.Id==Id);
         }
 
         public List<Product> GetProducts()
         {
-            throw new NotImplementedException();
+            return products;
         }
 
         public List<Product> GetProductsByCategoryId(int CategoryId)
         {
-            throw new NotImplementedException();
+            return products.Where(x=>x.CategoryId==CategoryId).ToList();
         }
 
         public void UpdateProduct(Product product)
         {
-            throw new NotImplementedException();
+            var ProductToUpdate=GetProduct(product.Id);
+            if (ProductToUpdate!=null)
+            {
+                ProductToUpdate.Price= product.Price;
+                ProductToUpdate.Quantity= product.Quantity;
+                ProductToUpdate.Rate= product.Rate;
+                ProductToUpdate.CategoryId = product.CategoryId;
+                ProductToUpdate.Name= product.Name; 
+            }
         }
     }
 }

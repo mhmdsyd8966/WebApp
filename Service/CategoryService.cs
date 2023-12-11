@@ -24,27 +24,47 @@ namespace Service
         }
         public void AddCategory(Category category)
         {
-            throw new NotImplementedException();
+            if (categories.Any(x => x.Name.Equals(category.Name, StringComparison.OrdinalIgnoreCase))) return;
+            if(categories!=null&&categories.Count>0)
+            {
+                var maxId = categories.Max(x => x.Id);
+                category.Id = maxId+1;
+            }
+            else
+            {
+                category.Id = 1;
+            }
+            categories.Add(category);
         }
 
         public void DeleteCategory(int id)
         {
-            throw new NotImplementedException();
+            categories.Remove(GetCategoryById(id));
         }
 
         public void EditCategory(Category category)
         {
-            throw new NotImplementedException();
+            var CategoryToUpdate =GetCategoryById(category.Id);
+            if(CategoryToUpdate != null)
+            {
+                CategoryToUpdate.Name = category.Name;
+                CategoryToUpdate.Description = category.Description;    
+            }
+            else
+            {
+                return;
+            }
         }
 
         public List<Category> GetCategories()
         {
-            throw new NotImplementedException();
+            return categories;
         }
 
         public Category GetCategoryById(int id)
         {
-            throw new NotImplementedException();
+            var category = categories.Find(x => x.Id == id);
+            return category;
         }
     }
 }

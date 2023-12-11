@@ -13,7 +13,7 @@ namespace IService.IServiceContract
         public void RemoveTransaction(int  transactionId);
         public List<Transaction> GetAllTransactions();
         public Transaction GetTransaction(int transactionId);
-        public void EditTransaction(Transaction transaction);
+        public void Save(List<Product>products, string PrdouctId, List<Product> soldQty, double ToTalPrice);
         //public List<Transaction> Search(DateTime startDate,DateTime endDate,int personId);
         public List<Transaction> Search(DateTime startDate, DateTime endDate);
     }

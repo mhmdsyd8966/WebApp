@@ -23,22 +23,42 @@ namespace Service
         }
         public void AddRate(Rate rate)
         {
-            throw new NotImplementedException();
+            if (rates != null && rates.Count > 0)
+            {
+                var MaxId = rates.Max(x => x.ProductId);
+                rate.Id = MaxId+1;
+            }
+            else
+            {
+                rate.Id = 1;
+            }
+            rates.Add(rate);
         }
 
         public List<Rate> GetRateListByProductId(int ProductId)
         {
-            throw new NotImplementedException();
+            return rates.Where(x=>x.ProductId==ProductId).ToList();
+        }
+        public Rate GetRateById(int id)
+        {
+            return rates.Find(x => x.Id == id);
         }
 
         public void RemoveRate(int id)
         {
-            throw new NotImplementedException();
+            rates.Remove(GetRateById(id));
         }
 
         public void UpdateRate(Rate rate)
         {
-            throw new NotImplementedException();
+            var RateToUpdate = GetRateById(rate.Id);
+            if(RateToUpdate != null)
+            {
+                RateToUpdate.RateNum= rate.RateNum;
+                RateToUpdate.ProductName=rate.ProductName;
+                RateToUpdate.ProductId = rate.ProductId;
+                RateToUpdate.Comment = rate.Comment;
+            }
         }
     }
 }
